@@ -66,29 +66,12 @@ async def get_fresh_news(message: types.Message):
         await message.answer("Пока нет новых статей...")
 
 
-async def news_every_minute():
-    while True:
-        fresh_news = check_news_up()
-
-        if len(fresh_news) >= 1:
-            for k, v in sorted(fresh_news.items()):
-                news = f"{hunderline(v['article_title'])}\n" \
-                       f"{hbold(v['article_desc'])}\n" \
-                       f"{hlink(v['article_title'], v['article_url'])}"
-
-                await bot.send_message(user_id, news, disable_notification=True)
-
-        else:
-            await bot.send_message(user_id, 'Пока нет новых статей...', disable_notification=True)
-
-        await asyncio.sleep(300)
 
 
 # Запуск бота
 if __name__ == '__main__':
     executor.start_polling(dp, on_startup=on_startup)
-    loop = asyncio.get_event_loop()
-    loop.create_task(news_every_minute())
+    
 
 
 
